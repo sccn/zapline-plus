@@ -27,9 +27,6 @@ if verbose
     disp(['Searching for first noise freq between ' num2str(minfreq) 'Hz and ' num2str(maxfreq) 'Hz...'])
 end
 
-i_start = find(f>minfreq,1,'first')+1;
-i_end = find(f<maxfreq,1,'last');
-
 noisefreq = [];
 threshfound = [];
 thisfreqs = [];
@@ -42,10 +39,12 @@ detected = 1;
 i_startdetected  = 0;
 i_enddetected  = 0;
 
-lastfreq = 0;
+i_start = max(find(f>minfreq,1,'first')+1,round(winsize/2));
+i_end = min(find(f<maxfreq,1,'last'),length(f)-round(winsize/2));
 
+lastfreq = 0;
 % detection left and right of freq of interest
-for i = i_start-round(winsize/2):i_end-winsize+1
+for i = i_start-round(winsize/2):i_end-round(winsize/2)+1
     
     thisdata = meandata(i:i+winsize-1);
     thisfreqs = f(i:i+winsize-1);

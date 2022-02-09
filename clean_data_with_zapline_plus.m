@@ -175,6 +175,7 @@ searchIndividualNoise = p.Results.searchIndividualNoise;
 freqDetectMultFine = p.Results.freqDetectMultFine;
 maxProportionAboveUpper = p.Results.maxProportionAboveUpper;
 maxProportionBelowLower = p.Results.maxProportionBelowLower;
+adaptiveNremove = p.Results.adaptiveNremove;
 minfreq = p.Results.minfreq;
 maxfreq = p.Results.maxfreq;
 detectionWinsize = p.Results.detectionWinsize;
@@ -711,12 +712,17 @@ while i_noisefreq <= length(noisefreqs)
             
             plot(nanmean(scores,1),'color',grey)
             hold on
-            plot([mean(NremoveFinal)+1 mean(NremoveFinal)+1],ylim,'color',red)
+            meanremovedhandle = plot([mean(NremoveFinal)+1 mean(NremoveFinal)+1],ylim,'color',red);
             xlim([0.7 round(size(scores,2)/3)])
-            title({'mean artifact scores [a.u.]', ['\sigma for detection = ' num2str(thisZaplineConfig.noiseCompDetectSigma)]})
+            if adaptiveNremove
+                title({'mean artifact scores [a.u.]', ['\sigma for detection = ' num2str(thisZaplineConfig.noiseCompDetectSigma)]})
+            else
+                title({'mean artifact scores [a.u.]'})
+            end
             xlabel('component')
             set(gca,'fontsize',12)
             box off
+            legend(meanremovedhandle, 'mean removed','edgecolor',[0.8 0.8 0.8])
             
             % plot new power
             subplot(3,30,[26:30]);
@@ -837,7 +843,7 @@ while i_noisefreq <= length(noisefreqs)
         
         cleaningDone = 1;
         
-        if adaptiveSigma
+        if adaptiveNremove && adaptiveSigma
             if cleaningTooStong && thisZaplineConfig.noiseCompDetectSigma < maxSigma
                 cleaningTooStongOnce = 1;
                 thisZaplineConfig.noiseCompDetectSigma = min(thisZaplineConfig.noiseCompDetectSigma + 0.25,maxSigma);
