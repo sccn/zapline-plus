@@ -19,3 +19,6 @@ Original Zapline paper: Cheveigné, Alain de. 2020. “ZapLine: A Simple and Eff
 
 Zapline-plus paper: Klug, M., and N. A. Kloosterman. 2021. “Zapline-plus: A Zapline Extension for Automatic and Adaptive Removal of Frequency-Specific Noise Artifacts in M/EEG.” bioRxiv. [https://www.biorxiv.org/content/10.1101/2021.10.18.464805.abstract](https://www.biorxiv.org/content/10.1101/2021.10.18.464805.abstract).
 
+# Versions
+
+- v1.0, initial version
